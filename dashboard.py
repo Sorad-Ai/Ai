@@ -4,8 +4,7 @@ import numpy as np
 
 def dashboard():
     """Display the webcam feed."""
-    # Set page config to wide layout
-    st.set_page_config(layout="wide")
+    # st.title("Webcam Feed")
 
     # Open the webcam
     cap = cv2.VideoCapture(0)
@@ -18,19 +17,8 @@ def dashboard():
     # Create a placeholder for the video feed
     stframe = st.empty()
 
-    # HTML and JavaScript to handle full screen
-    full_screen_script = """
-    <script>
-    function resizeVideo() {
-        const videoElement = document.getElementById('video_feed');
-        videoElement.style.width = '100%';
-        videoElement.style.height = '100vh';
-    }
-    window.onload = resizeVideo;
-    </script>
-    """
-
-    st.markdown(full_screen_script, unsafe_allow_html=True)
+    # Set the desired width for the video output
+    video_width = 1280  # Width in pixels
 
     while True:
         ret, frame = cap.read()
@@ -41,8 +29,8 @@ def dashboard():
         # Convert the frame to RGB (Streamlit uses RGB format)
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-        # Display the frame with the specified width and height
-        stframe.image(frame_rgb, channels="RGB", use_column_width=True)
+        # Display the frame with the specified width
+        stframe.image(frame_rgb, channels="RGB", use_column_width=False, width=video_width)
 
     # Release the webcam
     cap.release()
